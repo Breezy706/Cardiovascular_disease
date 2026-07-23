@@ -39,9 +39,8 @@ The project consists of three main components:
 
 | Home | Prediction |
 |---|---|
-| (<img width="1901" height="913" alt="image" src="https://github.com/user-attachments/assets/0d230543-f192-4f85-9819-8523ecd10dc0" />
-) | (<img width="1901" height="917" alt="image" src="https://github.com/user-attachments/assets/d190256a-b265-4cf4-8471-4945f1222d38" />
-) |
+| <img width="1901" height="913" alt="image" src="https://github.com/user-attachments/assets/0d230543-f192-4f85-9819-8523ecd10dc0" />
+ | <img width="1901" height="917" alt="image" src="https://github.com/user-attachments/assets/d190256a-b265-4cf4-8471-4945f1222d38" /> |
 
 | Power BI Dashboard | Reports |
 |---|---|

@@ -39,8 +39,7 @@ The project consists of three main components:
 
 | Dashboard | Prediction |
 |---|---|
-| <img width="450" alt="Dashboard" src="https://github.com/user-attachments/assets/6a4263cc-d5c5-4e0c-923f-c1afb8bcc910" />
-| <img width="450" alt="prediction" src="https://github.com/user-attachments/assets/d190256a-b265-4cf4-8471-4945f1222d38" /> |
+| <img width="450" alt="Dashboard" src="https://github.com/user-attachments/assets/6a4263cc-d5c5-4e0c-923f-c1afb8bcc910" /> | <img width="450" alt="prediction" src="https://github.com/user-attachments/assets/d190256a-b265-4cf4-8471-4945f1222d38" /> |
 
 |  Database (MySQL) | Reports |
 |---|---|

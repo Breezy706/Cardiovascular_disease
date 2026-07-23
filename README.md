@@ -51,10 +51,9 @@ The project consists of three main components:
 
 | Database (MySQL) |
 |---|
-| <img width="1920" height="1029" alt="image" src="https://github.com/user-attachments/assets/f64a22d4-e516-42b0-95a7-ed542dbcf0ab" />
- |
+ <img width="1920" height="1029" alt="image" src="https://github.com/user-attachments/assets/f64a22d4-e516-42b0-95a7-ed542dbcf0ab" />
+ 
 
-> **Note:** Add your actual screenshots to a `docs/screenshots/` folder (or update the paths below) using the file names above so they render correctly on GitHub.
 
 ---
 

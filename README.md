@@ -47,7 +47,7 @@ The project consists of three main components:
 
 | Power BI Dashboard) |
 |---|
- | <img width="1920" alt="dashboard" src="https://github.com/user-attachments/assets/99a71e9c-8bb5-4877-b162-d6c15ef41c7b" />
+ | <img width="1901" height="913" alt="dashboard" src="https://github.com/user-attachments/assets/99a71e9c-8bb5-4877-b162-d6c15ef41c7b" />
  |
 
 

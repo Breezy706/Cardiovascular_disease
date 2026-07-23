@@ -39,7 +39,7 @@ The project consists of three main components:
 
 | Dashboard | Prediction |
 |---|---|
-| <img width="450" alt="image" src="https://github.com/user-attachments/assets/6a4263cc-d5c5-4e0c-923f-c1afb8bcc910" />
+| <img width="450" alt="Dashboard" src="https://github.com/user-attachments/assets/6a4263cc-d5c5-4e0c-923f-c1afb8bcc910" />
 | <img width="450" alt="prediction" src="https://github.com/user-attachments/assets/d190256a-b265-4cf4-8471-4945f1222d38" /> |
 
 |  Database (MySQL) | Reports |
@@ -241,6 +241,7 @@ Open in your browser: `http://localhost:5173`
  
 - 📧 [ramadhanyahya16@gmail.com](mailto:ramadhanyahya16@gmail.com)
 - 🔗 [LinkedIn](https://www.linkedin.com/in/yahaya-nasoro-039bb231a)
+  
 Designed and developed this project end-to-end  from data analysis and model building to dashboard design and full-stack web application deployment as part of applied research into predicting cardiovascular disease risk using Machine Learning.
  
 ---

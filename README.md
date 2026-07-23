@@ -1,36 +1,37 @@
-# 🫀 CardioSense — Machine Learning Based Prediction of Cardiovascular Disease
+# 🫀 CardioSense: Machine Learning Based Prediction of Cardiovascular Disease
 
 CardioSense is a full end-to-end system for predicting **Cardiovascular Disease (CVD)** risk using **Machine Learning**, complemented by a **Power BI** dashboard for exploratory data analysis, and a complete **web application** with a Flask backend and React frontend that lets clinicians enter patient data and instantly receive a heart disease risk prediction.
 
-![Overview](docs/screenshots/home.png)
+![Overview](<img width="1901" height="913" alt="image" src="https://github.com/user-attachments/assets/25d6bf94-11d4-4220-8150-d417e84a8a41" />
+)
 
 ---
 
 ## 📌 Overview
 
-Cardiovascular Disease (CVD) is one of the leading causes of death worldwide. The goal of this project is to use clinical risk factors — such as age, blood pressure, cholesterol level, chest pain type, and maximum heart rate — to build a model that can predict whether a patient is at risk of developing heart disease.
+Cardiovascular Disease (CVD) is one of the leading causes of death worldwide. The goal of this project is to use clinical risk factors  such as age, blood pressure, cholesterol level, chest pain type and maximum heart rate  to build a model that can predict whether a patient is at risk of developing heart disease.
 
 The project consists of three main components:
 
-1. **Data Science / Machine Learning** — A notebook covering exploratory data analysis (EDA), preprocessing, training of multiple classification models, and their evaluation.
-2. **Power BI Dashboard** — An interactive dashboard providing deeper visual insight into patient data.
-3. **Full-Stack Web Application** — A production-like system consisting of:
-   - **Backend:** Flask (Python) — serves the trained model as an API.
-   - **Frontend:** React + TypeScript (Vite) — the user interface used by clinicians to input data and view results.
-   - **Database:** MySQL — stores patient information and prediction results.
+1. **Data Science / Machine Learning** : A notebook covering exploratory data analysis (EDA), preprocessing, training of multiple classification models, and their evaluation.
+2. **Power BI Dashboard** : An interactive dashboard providing deeper visual insight into patient data.
+3. **Full-Stack Web Application** : A production-like system consisting of:
+   - **Backend:** Flask (Python) : serves the trained model as an API.
+   - **Frontend:** React + TypeScript (Vite) : the user interface used by clinicians to input data and view results.
+   - **Database:** MySQL : stores patient information and prediction results.
 
 ---
 
 ## ✨ Features
 
-- 🔐 **Home Dashboard** — an overview of the project and how the model works.
-- 📊 **Analytics Dashboard (Power BI)** — an in-depth breakdown of demographics, medical measurements, and diagnostic features.
-- ❤️ **Prediction Page** — enter a patient's 11 clinical features and get:
+- 🔐 **Home Dashboard** : an overview of the project and how the model works.
+- 📊 **Analytics Dashboard (Power BI)** : an in-depth breakdown of demographics, medical measurements, and diagnostic features.
+- ❤️ **Prediction Page** : enter a patient's 11 clinical features and get:
   - Risk probability (percentage)
   - Classification (High Risk / Low Risk)
   - Recommendations to reduce cardiovascular risk
-- 🕘 **History** — view all previously made predictions.
-- 📑 **Reports** — aggregated statistics (monthly predictions, risk distribution) with **PDF export**.
+- 🕘 **History** : view all previously made predictions.
+- 📑 **Reports** : aggregated statistics (monthly predictions, risk distribution) with **PDF export**.
 - 💾 All results are automatically saved to a **MySQL database**.
 
 ---
@@ -39,15 +40,20 @@ The project consists of three main components:
 
 | Home | Prediction |
 |---|---|
-| ![Home](docs/screenshots/home.png) | ![Prediction](docs/screenshots/prediction.png) |
+| ![Home](<img width="1901" height="913" alt="image" src="https://github.com/user-attachments/assets/0d230543-f192-4f85-9819-8523ecd10dc0" />
+) | ![Prediction](<img width="1901" height="917" alt="image" src="https://github.com/user-attachments/assets/d190256a-b265-4cf4-8471-4945f1222d38" />
+) |
 
 | Power BI Dashboard | Reports |
 |---|---|
-| ![Dashboard](docs/screenshots/dashboard.png) | ![Reports](docs/screenshots/reports.png) |
+| ![Dashboard](<img width="1324" height="762" alt="image" src="https://github.com/user-attachments/assets/99a71e9c-8bb5-4877-b162-d6c15ef41c7b" />
+) | ![Reports](<img width="1899" height="922" alt="image" src="https://github.com/user-attachments/assets/dbb25d8f-c052-490a-977f-140b3e19ad45" />
+) |
 
 | Database (MySQL) |
 |---|
-| ![Database](docs/screenshots/database.png) |
+| ![Database](<img width="1920" height="1029" alt="image" src="https://github.com/user-attachments/assets/f64a22d4-e516-42b0-95a7-ed542dbcf0ab" />
+) |
 
 > **Note:** Add your actual screenshots to a `docs/screenshots/` folder (or update the paths below) using the file names above so they render correctly on GitHub.
 

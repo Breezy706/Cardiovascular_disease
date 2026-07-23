@@ -35,11 +35,12 @@ The project consists of three main components:
 
 ---
 
-## 🖼️ Screenshots
+## 🖼️ System Preview
 
-| Home | Prediction |
+| Dashboard | Prediction |
 |---|---|
-| <img width="450" alt="home" src="https://github.com/user-attachments/assets/0d230543-f192-4f85-9819-8523ecd10dc0" /> | <img width="450" alt="prediction" src="https://github.com/user-attachments/assets/d190256a-b265-4cf4-8471-4945f1222d38" /> |
+| <img width="450" alt="image" src="https://github.com/user-attachments/assets/6a4263cc-d5c5-4e0c-923f-c1afb8bcc910" />
+| <img width="450" alt="prediction" src="https://github.com/user-attachments/assets/d190256a-b265-4cf4-8471-4945f1222d38" /> |
 
 |  Database (MySQL) | Reports |
 |---|---|
@@ -55,12 +56,12 @@ The project consists of three main components:
 
 ## 🧠 Machine Learning Pipeline
 
-Dataset: **`heart.csv`** — 918 patient records with 11 clinical features and one target column (`HeartDisease`).
+Dataset: **`heart.csv`** : 918 patient records with 11 clinical features and one target column (`HeartDisease`).
 
 ### Steps followed
-1. **Exploratory Data Analysis (EDA)** — examined distributions, correlations, outliers, and relationships between age, sex, chest pain type, cholesterol, exercise angina, etc., and HeartDisease.
-2. **Data Preprocessing** — one-hot encoding of categorical features, train/test split (70/30), and feature scaling using `StandardScaler`.
-3. **Model Building** — seven (7) classification models were built and compared:
+1. **Exploratory Data Analysis (EDA)** : examined distributions, correlations, outliers, and relationships between age, sex, chest pain type, cholesterol, exercise angina, etc., and HeartDisease.
+2. **Data Preprocessing** : one-hot encoding of categorical features, train/test split (70/30), and feature scaling using `StandardScaler`.
+3. **Model Building** : seven (7) classification models were built and compared:
 
 | Classifier | Train Accuracy | Test Accuracy | Precision | Recall | F1-Score | ROC-AUC |
 |---|---|---|---|---|---|---|
@@ -72,8 +73,8 @@ Dataset: **`heart.csv`** — 918 patient records with 11 clinical features and o
 | **Gradient Boosting ✅** | **0.950** | **0.862** | **0.880** | **0.868** | **0.874** | **0.862** |
 | XGBoost | 1.000 | 0.833 | 0.853 | 0.842 | 0.848 | 0.832 |
 
-4. **Model Selection** — The **Gradient Boosting Classifier** was chosen as the final model because it offered the best trade-off between performance and generalization, along with a ROC curve closest to the top-left corner.
-5. **Cross Validation & Hyperparameter Tuning** — `RandomizedSearchCV` was used to search for optimal parameters, although the tuned model did not significantly outperform the original one.
+4. **Model Selection** : The **Gradient Boosting Classifier** was chosen as the final model because it offered the best trade-off between performance and generalization, along with a ROC curve closest to the top-left corner.
+5. **Cross Validation & Hyperparameter Tuning** : `RandomizedSearchCV` was used to search for optimal parameters, although the tuned model did not significantly outperform the original one.
 6. The final model (along with `scaler.sav`) is served through the Flask backend to generate predictions.
 
 ### Clinical Features Used for Prediction
@@ -133,7 +134,7 @@ The dashboard shows:
 - Power BI
 
 **Backend**
-- Flask (Python) — REST API serving the trained model
+- Flask (Python) : REST API serving the trained model
 - Pickle (`scaler.sav`) for feature scaling
 
 **Frontend**
@@ -232,14 +233,18 @@ Open in your browser: `http://localhost:5173`
 - Integrate with real medical devices (IoT) for live data feeds
 
 ---
-
+ 
 ## 👤 Author
-
-**Dr. Hauran Ali** — Cardiology / Project Owner
-Built as part of a research project on predicting cardiovascular disease risk using Machine Learning.
-
+ 
+**Yahaya Nasoro**
+*Data Scientist | Data Analyst*
+ 
+- 📧 [ramadhanyahya16@gmail.com](mailto:ramadhanyahya16@gmail.com)
+- 🔗 [LinkedIn](https://www.linkedin.com/in/yahaya-nasoro-039bb231a)
+Designed and developed this project end-to-end  from data analysis and model building to dashboard design and full-stack web application deployment as part of applied research into predicting cardiovascular disease risk using Machine Learning.
+ 
 ---
 
 ## 📄 License
 
-This project is released under the **MIT License** — you are free to use, modify, and distribute it in accordance with the terms of that license.
+This project is released under the **MIT License**  you are free to use, modify and distribute it in accordance with the terms of that license.

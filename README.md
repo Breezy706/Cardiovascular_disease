@@ -39,12 +39,11 @@ The project consists of three main components:
 
 | Home | Prediction |
 |---|---|
-| <img width="1901" height="913" alt="image" src="https://github.com/user-attachments/assets/0d230543-f192-4f85-9819-8523ecd10dc0" />
- | <img width="1901" height="917" alt="image" src="https://github.com/user-attachments/assets/d190256a-b265-4cf4-8471-4945f1222d38" /> |
+| <img width="450" alt="home" src="https://github.com/user-attachments/assets/0d230543-f192-4f85-9819-8523ecd10dc0" /> | <img width="450" alt="prediction" src="https://github.com/user-attachments/assets/d190256a-b265-4cf4-8471-4945f1222d38" /> |
 
 | Power BI Dashboard | Reports |
 |---|---|
-| <img width="1324" height="762" alt="image" src="https://github.com/user-attachments/assets/99a71e9c-8bb5-4877-b162-d6c15ef41c7b" />| <img width="1899" height="922" alt="image" src="https://github.com/user-attachments/assets/dbb25d8f-c052-490a-977f-140b3e19ad45" />|
+| <img width="450" alt="dashboard" src="https://github.com/user-attachments/assets/99a71e9c-8bb5-4877-b162-d6c15ef41c7b" /> | <img width="450" alt="reports" src="https://github.com/user-attachments/assets/dbb25d8f-c052-490a-977f-140b3e19ad45" /> |
 
 | Database (MySQL) |
 |---|

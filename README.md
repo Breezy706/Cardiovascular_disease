@@ -45,9 +45,9 @@ The project consists of three main components:
 
 | Power BI Dashboard | Reports |
 |---|---|
-| ![Dashboard](<img width="1324" height="762" alt="image" src="https://github.com/user-attachments/assets/99a71e9c-8bb5-4877-b162-d6c15ef41c7b" />
-) | ![Reports](<img width="1899" height="922" alt="image" src="https://github.com/user-attachments/assets/dbb25d8f-c052-490a-977f-140b3e19ad45" />
-) |
+| <img width="1324" height="762" alt="image" src="https://github.com/user-attachments/assets/99a71e9c-8bb5-4877-b162-d6c15ef41c7b" />
+ | <img width="1899" height="922" alt="image" src="https://github.com/user-attachments/assets/dbb25d8f-c052-490a-977f-140b3e19ad45" />
+ |
 
 | Database (MySQL) |
 |---|

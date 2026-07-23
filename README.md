@@ -2,7 +2,7 @@
 
 CardioSense is a full end-to-end system for predicting **Cardiovascular Disease (CVD)** risk using **Machine Learning**, complemented by a **Power BI** dashboard for exploratory data analysis, and a complete **web application** with a Flask backend and React frontend that lets clinicians enter patient data and instantly receive a heart disease risk prediction.
 
-![Overview](<img width="1901" height="913" alt="image" src="https://github.com/user-attachments/assets/25d6bf94-11d4-4220-8150-d417e84a8a41" />)
+(<img width="1901" height="913" alt="image" src="https://github.com/user-attachments/assets/25d6bf94-11d4-4220-8150-d417e84a8a41" />)
 
 ---
 

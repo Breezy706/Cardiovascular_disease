@@ -239,7 +239,7 @@ Open in your browser: `http://localhost:5173`
 *Data Scientist | Data Analyst*
  
 - 📧 [ramadhanyahya16@gmail.com](mailto:ramadhanyahya16@gmail.com)
-- 🔗 [LinkedIn](https://www.linkedin.com/in/yahaya-nasoro-039bb231a)
+- 🔗 [LinkedIn:Yahaya Nasoro](https://www.linkedin.com/in/yahaya-nasoro-039bb231a)
   
 Designed and developed this project end-to-end  from data analysis and model building to dashboard design and full-stack web application deployment as part of applied research into predicting cardiovascular disease risk using Machine Learning.
  

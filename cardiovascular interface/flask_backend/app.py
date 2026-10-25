@@ -2,15 +2,8 @@
 CardioSense Flask API
 ---------------------
 Serves the trained Gradient Boosting model (finalized_model.sav) for
-predictions, AND now reads/writes all patient predictions to a MySQL
-database (the same database you manage through phpMyAdmin).
-
-Setup:
-    1. Import schema.sql into your MySQL server (phpMyAdmin -> Import,
-       or `mysql -u root -p < schema.sql`).
-    2. Copy .env.example to .env and fill in your DB credentials.
-    3. pip install -r requirements.txt
-    4. python app.py
+predictions, AND reads/writes all patient predictions to a MySQL
+database (Aiven MySQL in production).
 
 Endpoints:
     GET    /health              -> {"status": "ok"}
@@ -18,6 +11,10 @@ Endpoints:
     POST   /patients             -> save a new patient/prediction record
     DELETE /patients/<id>         -> remove a record
     POST   /predict              -> run the ML model on 11 clinical features
+
+Environment variables (set on Render):
+    DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME
+    DB_SSL=true   (Aiven requires SSL; uses ca.pem next to this file)
 """
 
 import base64
@@ -52,6 +49,17 @@ if MODEL_PATH.exists():
 CATEGORICAL = ["Sex", "ChestPainType", "RestingECG", "ExerciseAngina", "ST_Slope"]
 NUMERIC = ["Age", "RestingBP", "Cholesterol", "FastingBS", "MaxHR", "Oldpeak"]
 
+# Fallback column layout (pd.get_dummies(drop_first=True) on the standard
+# heart-disease dataset). Only used if the model has no feature_names_in_.
+DEFAULT_FEATURES = [
+    "Age", "RestingBP", "Cholesterol", "FastingBS", "MaxHR", "Oldpeak",
+    "Sex_M",
+    "ChestPainType_ATA", "ChestPainType_NAP", "ChestPainType_TA",
+    "RestingECG_Normal", "RestingECG_ST",
+    "ExerciseAngina_Y",
+    "ST_Slope_Flat", "ST_Slope_Up",
+]
+
 HIGH_RISK_RECS = [
     "Consult a cardiologist immediately for a full clinical assessment.",
     "Adopt a strict low-sodium, low-saturated-fat diet (DASH / Mediterranean).",
@@ -60,14 +68,14 @@ HIGH_RISK_RECS = [
     "Limit alcohol to <1 drink/day and eliminate sugary drinks.",
     "Monitor blood pressure, cholesterol, and blood sugar weekly.",
     "Take prescribed medication (statins, antihypertensives) consistently.",
-    "Manage stress through mindfulness, therapy or breathing exercises.",
+    "Manage stress through mindfulness, therapy, or breathing exercises.",
     "Aim for a BMI between 18.5 and 24.9; reduce weight if overweight.",
     "Ensure 7-8 hours of quality sleep every night.",
 ]
 
 LOW_RISK_RECS = [
     "Maintain a balanced diet rich in vegetables, fruits, and whole grains.",
-    "Continue regular physical activity at least 150 min/week.",
+    "Continue regular physical activity-at least 150 min/week.",
     "Keep annual cardiovascular check-ups and lipid panels.",
     "Avoid smoking and limit alcohol intake.",
     "Manage stress and maintain healthy sleep habits.",
@@ -77,9 +85,10 @@ LOW_RISK_RECS = [
 ]
 
 # ---------------------------------------------------------------------------
-# Database helpers (MySQL / phpMyAdmin)
+# Database helpers (MySQL)
 # ---------------------------------------------------------------------------
 CA_PATH = Path(__file__).parent / "ca.pem"
+
 DB_CONFIG = dict(
     host=os.environ.get("DB_HOST", "localhost"),
     port=int(os.environ.get("DB_PORT", "3306")),
@@ -89,16 +98,18 @@ DB_CONFIG = dict(
     cursorclass=DictCursor,
     autocommit=True,
 )
-# Aiven inahitaji SSL. Washa kwa DB_SSL=true (Render pekee).
+
+# Aiven requires SSL. Enabled by setting DB_SSL=true (on Render).
 if os.environ.get("DB_SSL", "").lower() == "true":
     DB_CONFIG["ssl"] = {"ca": str(CA_PATH)}
+
 
 def get_db():
     return pymysql.connect(**DB_CONFIG)
 
 
 def init_db():
-    """Create the patients table if it doesn't exist yet (schema.sql also does this)."""
+    """Create the patients table if it doesn't exist yet."""
     conn = get_db()
     try:
         with conn.cursor() as cur:
@@ -111,7 +122,7 @@ def init_db():
                     sex           ENUM('M','F') NOT NULL,
                     bp            INT          NOT NULL,
                     chol          INT          NOT NULL,
-                    risk          ENUM('High','Low') NOT NULL,
+                    risk          ENUM('High','Low','Moderate') NOT NULL,
                     probability   DECIMAL(6,4) NOT NULL,
                     date          DATE         NOT NULL,
                     created_at    TIMESTAMP    DEFAULT CURRENT_TIMESTAMP
@@ -146,19 +157,29 @@ def next_patient_id(conn) -> str:
 # ---------------------------------------------------------------------------
 
 def build_feature_frame(payload: dict) -> pd.DataFrame:
-    """Construct a one-row DataFrame that matches the training dummies layout."""
-    row = {c: [payload.get(c)] for c in NUMERIC + CATEGORICAL}
-    df = pd.DataFrame(row)
-    df[NUMERIC] = df[NUMERIC].apply(pd.to_numeric, errors="coerce")
-    df = pd.get_dummies(df, columns=CATEGORICAL, drop_first=True)
+    """Build ONE row that matches the training columns.
 
-    expected = getattr(model, "feature_names_in_", None)
-    if expected is not None:
-        for col in expected:
-            if col not in df.columns:
-                df[col] = 0
-        df = df[list(expected)]
-    return df
+    The dummy columns are created by hand because pd.get_dummies on a single
+    row (with drop_first=True) drops every categorical column, which would
+    make Sex, ChestPainType, RestingECG, ExerciseAngina and ST_Slope have
+    no effect on the prediction.
+    """
+    expected = list(getattr(model, "feature_names_in_", [])) or DEFAULT_FEATURES
+
+    values = {}
+    for col in expected:
+        if col in NUMERIC:
+            values[col] = pd.to_numeric(payload.get(col), errors="coerce")
+            continue
+
+        values[col] = 0
+        for cat in CATEGORICAL:
+            prefix = cat + "_"
+            if col.startswith(prefix):
+                values[col] = 1 if str(payload.get(cat)) == col[len(prefix):] else 0
+                break
+
+    return pd.DataFrame([values], columns=expected)
 
 
 def make_chart(prob: float) -> str:
@@ -272,6 +293,7 @@ def predict():
     except Exception as e:
         return jsonify(error=str(e)), 400
 
+    # Threshold: 0.5 or higher = High risk, below 0.5 = Low risk
     label = "High" if proba >= 0.5 else "Low"
     recs = HIGH_RISK_RECS if label == "High" else LOW_RISK_RECS
     chart = make_chart(proba)

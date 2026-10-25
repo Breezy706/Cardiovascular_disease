@@ -14,7 +14,7 @@ function HomePage() {
     // 100vh minus the navbar height (h-16 = 4rem), so the image fills the
     // whole visible area with no scrolling — stretched to fit exactly,
     // no black bars.
-    <div className="h-[calc(100vh-4rem)] w-full overflow-hidden">
+    <div className="w-full overflow-hidden md:h-[calc(100vh-4rem)]">
       <img
         src="/project-image.jpeg"
         alt="Predicting Risk of Cardiovascular Diseases"

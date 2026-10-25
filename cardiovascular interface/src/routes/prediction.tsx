@@ -53,27 +53,20 @@ const LOW_RISK_RECS = [
   "Stay hydrated and limit processed foods.",
 ];
 
-// Simple heuristic scoring that mirrors the Gradient Boosting model's tendencies.
-// Replace with a call to the Flask API's /predict endpoint if you want the
-// real trained model instead of this client-side heuristic.
-function scorePatient(f: Record<string, string | number>): number {
-  let s = 0;
-  s += (Number(f.Age) - 40) * 0.012;
-  s += f.Sex === "M" ? 0.15 : 0;
-  const cpMap: Record<string, number> = { ASY: 0.35, ATA: -0.1, NAP: 0.05, TA: 0.1 };
-  s += cpMap[String(f.ChestPainType)] ?? 0;
-  s += (Number(f.RestingBP) - 120) * 0.005;
-  s += (Number(f.Cholesterol) - 200) * 0.0015;
-  s += Number(f.FastingBS) === 1 ? 0.2 : 0;
-  const ecgMap: Record<string, number> = { Normal: 0, ST: 0.12, LVH: 0.15 };
-  s += ecgMap[String(f.RestingECG)] ?? 0;
-  s += (150 - Number(f.MaxHR)) * 0.006;
-  s += f.ExerciseAngina === "Y" ? 0.25 : 0;
-  s += Number(f.Oldpeak) * 0.15;
-  const slopeMap: Record<string, number> = { Up: -0.15, Flat: 0.2, Down: 0.25 };
-  s += slopeMap[String(f.ST_Slope)] ?? 0;
-  // sigmoid
-  return 1 / (1 + Math.exp(-s));
+const API_BASE = (import.meta as any).env?.VITE_API_BASE_URL ?? "http://localhost:5000";
+
+// Calls the Flask API, which runs the real trained model (finalized_model.sav).
+async function fetchPrediction(features: Record<string, string | number>): Promise<number> {
+  const res = await fetch(`${API_BASE}/predict`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(features),
+  });
+  const body = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(body.error || `Prediction failed (HTTP ${res.status})`);
+  const probability = Number(body.probability);
+  if (!Number.isFinite(probability)) throw new Error("The server returned an invalid prediction.");
+  return probability;
 }
 
 function todayIso(): string {
@@ -85,6 +78,8 @@ function PredictionPage() {
   const [saved, setSaved] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+  const [predicting, setPredicting] = useState(false);
+  const [predictError, setPredictError] = useState<string | null>(null);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -92,12 +87,26 @@ function PredictionPage() {
     const features: Record<string, string | number> = {};
     data.forEach((v, k) => { features[k] = v as string; });
 
-    const probability = scorePatient(features);
+    setSaved(false);
+    setSaveError(null);
+    setPredictError(null);
+    setPredicting(true);
+
+    // Run the real model on the Flask API
+    let probability: number;
+    try {
+      probability = await fetchPrediction(features);
+    } catch (err) {
+      setPredictError(err instanceof Error ? err.message : "Could not run the prediction.");
+      setPredicting(false);
+      return;
+    }
+    setPredicting(false);
+
+    // Threshold: 0.5 or higher = High risk, below 0.5 = Low risk
     const label: Result["label"] = probability >= 0.5 ? "High" : "Low";
     const name = String(features.name || "Patient");
     setResult({ name, probability, label });
-    setSaved(false);
-    setSaveError(null);
     setSaving(true);
 
     // Persist this prediction to the MySQL database (via the Flask API) so
@@ -163,14 +172,18 @@ function PredictionPage() {
           <div className="flex items-center justify-end gap-3 pt-2">
             <button
               type="reset"
-              onClick={() => { setResult(null); setSaved(false); setSaveError(null); }}
+              onClick={() => { setResult(null); setSaved(false); setSaveError(null); setPredictError(null); }}
               className="rounded-md border border-border px-4 py-2 text-sm font-medium text-muted-foreground hover:bg-muted"
             >
               Reset
             </button>
-            <button type="submit" className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90">
+            <button
+              type="submit"
+              disabled={predicting || saving}
+              className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-60"
+            >
               <Stethoscope className="h-4 w-4" />
-              Run prediction
+              {predicting ? "Analysing…" : "Run prediction"}
             </button>
           </div>
         </form>
@@ -178,6 +191,14 @@ function PredictionPage() {
         <div className="space-y-6">
           <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
             <h2 className="text-sm font-medium text-muted-foreground">Prediction result</h2>
+            {predicting && (
+              <p className="mt-4 text-sm text-muted-foreground">
+                Analysing… the first request can take up to a minute while the server wakes up.
+              </p>
+            )}
+            {predictError && !predicting && (
+              <p className="mt-4 text-sm font-medium text-destructive">{predictError}</p>
+            )}
             {result ? (
               <div className="mt-4">
                 <div className="flex items-center gap-3">
@@ -202,6 +223,9 @@ function PredictionPage() {
                     Could not save to database: {saveError}
                   </p>
                 )}
+                <p className="mt-3 text-xs text-muted-foreground">
+                  Risk is classified as High when the probability is 50% or more, and Low when it is below 50%.
+                </p>
                 <div className="mt-4 h-48">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
@@ -217,9 +241,11 @@ function PredictionPage() {
                 </div>
               </div>
             ) : (
-              <p className="mt-4 text-sm text-muted-foreground">
-                Complete the form and run a prediction to see the probability and risk chart.
-              </p>
+              !predicting && !predictError && (
+                <p className="mt-4 text-sm text-muted-foreground">
+                  Complete the form and run a prediction to see the probability and risk chart.
+                </p>
+              )
             )}
           </div>
 

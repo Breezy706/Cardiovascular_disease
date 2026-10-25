@@ -67,7 +67,7 @@ HIGH_RISK_RECS = [
 
 LOW_RISK_RECS = [
     "Maintain a balanced diet rich in vegetables, fruits, and whole grains.",
-    "Continue regular physical activity - at least 150 min/week.",
+    "Continue regular physical activity-at least 150 min/week.",
     "Keep annual cardiovascular check-ups and lipid panels.",
     "Avoid smoking and limit alcohol intake.",
     "Manage stress and maintain healthy sleep habits.",
@@ -79,17 +79,19 @@ LOW_RISK_RECS = [
 # ---------------------------------------------------------------------------
 # Database helpers (MySQL / phpMyAdmin)
 # ---------------------------------------------------------------------------
-
+CA_PATH = Path(__file__).parent / "ca.pem"
 DB_CONFIG = dict(
     host=os.environ.get("DB_HOST", "localhost"),
     port=int(os.environ.get("DB_PORT", "3306")),
     user=os.environ.get("DB_USER", "root"),
-    password=os.environ.get("DB_PASSWORD", "@1979breezy"),
+    password=os.environ.get("DB_PASSWORD", ""),
     database=os.environ.get("DB_NAME", "cardiosense"),
     cursorclass=DictCursor,
     autocommit=True,
 )
-
+# Aiven inahitaji SSL. Washa kwa DB_SSL=true (Render pekee).
+if os.environ.get("DB_SSL", "").lower() == "true":
+    DB_CONFIG["ssl"] = {"ca": str(CA_PATH)}
 
 def get_db():
     return pymysql.connect(**DB_CONFIG)
@@ -285,4 +287,8 @@ def predict():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(
+        host="0.0.0.0",
+        port=int(os.environ.get("PORT", 5000)),
+        debug=os.environ.get("FLASK_DEBUG") == "1",
+    )

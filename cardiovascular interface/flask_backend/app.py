@@ -212,13 +212,17 @@ def health():
 
 @app.get("/patients")
 def list_patients():
-    """Return all stored patients/predictions, newest first."""
+    """Return all stored patients/predictions, newest first.
+
+    The patient's name is stored in the database but is deliberately NOT
+    returned here, so it never reaches the browser.
+    """
     conn = get_db()
     try:
         with conn.cursor() as cur:
             cur.execute(
                 """
-                SELECT id, name, age, sex, bp, chol, risk, probability,
+                SELECT id, age, sex, bp, chol, risk, probability,
                        DATE_FORMAT(date, '%Y-%m-%d') AS date
                 FROM patients
                 ORDER BY date DESC, created_at DESC
@@ -259,7 +263,9 @@ def create_patient():
                 """,
                 record,
             )
-        return jsonify(record), 201
+        # The name is saved in the database but never sent back to the browser.
+        safe_record = {k: v for k, v in record.items() if k != "name"}
+        return jsonify(safe_record), 201
     except Exception as e:
         return jsonify(error=str(e)), 400
     finally:

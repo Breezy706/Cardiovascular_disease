@@ -9,7 +9,6 @@ export function PatientsTable({ rows }: { rows: PatientRecord[] }) {
           <thead className="bg-muted/50 text-left text-xs uppercase tracking-wide text-muted-foreground">
             <tr>
               <th className="px-4 py-3 font-medium">Patient ID</th>
-              <th className="px-4 py-3 font-medium">Name</th>
               <th className="px-4 py-3 font-medium">Age / Sex</th>
               <th className="px-4 py-3 font-medium">BP</th>
               <th className="px-4 py-3 font-medium">Cholesterol</th>
@@ -21,8 +20,7 @@ export function PatientsTable({ rows }: { rows: PatientRecord[] }) {
           <tbody className="divide-y divide-border">
             {rows.map((r) => (
               <tr key={r.id} className="transition-colors hover:bg-muted/30">
-                <td className="px-4 py-3 font-mono text-xs text-muted-foreground">{r.id}</td>
-                <td className="px-4 py-3 font-medium text-foreground">{r.name}</td>
+                <td className="px-4 py-3 font-mono text-xs font-medium text-foreground">{r.id}</td>
                 <td className="px-4 py-3 text-muted-foreground">{r.age} / {r.sex}</td>
                 <td className="px-4 py-3 text-muted-foreground">{r.bp} mmHg</td>
                 <td className="px-4 py-3 text-muted-foreground">{r.chol} mg/dL</td>

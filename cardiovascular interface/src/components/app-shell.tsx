@@ -4,8 +4,8 @@ import { Activity, Home, LayoutDashboard, Stethoscope, FileBarChart, History } f
 import { cn } from "@/lib/utils";
 
 const nav = [
-  { to: "/home", label: "Home", icon: Home },
-  { to: "/", label: "Dashboard", icon: LayoutDashboard },
+  { to: "/", label: "Home", icon: Home },
+  { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { to: "/prediction", label: "Prediction", icon: Stethoscope },
   { to: "/history", label: "History", icon: History },
   { to: "/reports", label: "Reports", icon: FileBarChart },

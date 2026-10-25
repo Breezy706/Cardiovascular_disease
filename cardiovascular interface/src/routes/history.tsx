@@ -19,7 +19,7 @@ function HistoryPage() {
   const [filter, setFilter] = useState<"All" | "High" | "Low">("All");
 
   const rows = patients.filter((r) => {
-    const matchQ = !q || r.name.toLowerCase().includes(q.toLowerCase()) || r.id.toLowerCase().includes(q.toLowerCase());
+    const matchQ = !q || r.id.toLowerCase().includes(q.toLowerCase());
     const matchF = filter === "All" || r.risk === filter;
     return matchQ && matchF;
   });
@@ -46,7 +46,7 @@ function HistoryPage() {
           <input
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="Search by name or ID..."
+            placeholder="Search by Patient ID..."
             className="w-full rounded-md border border-input bg-background py-2 pl-9 pr-3 text-sm outline-none focus:border-ring focus:ring-2 focus:ring-ring/30"
           />
         </div>

@@ -37,14 +37,14 @@ const HIGH_RISK_RECS = [
   "Limit alcohol to <1 drink/day and eliminate sugary drinks.",
   "Monitor blood pressure, cholesterol, and blood sugar weekly.",
   "Take prescribed medication (statins, antihypertensives) consistently.",
-  "Manage stress through mindfulness, therapy, or breathing exercises.",
+  "Manage stress through mindfulness, therapy or breathing exercises.",
   "Aim for a BMI between 18.5 and 24.9; reduce weight if overweight.",
   "Ensure 7–8 hours of quality sleep every night.",
 ];
 
 const LOW_RISK_RECS = [
-  "Maintain a balanced diet rich in vegetables, fruits, and whole grains.",
-  "Continue regular physical activity — at least 150 min/week.",
+  "Maintain a balanced diet rich in vegetables, fruits and whole grains.",
+  "Continue regular physical activity at least 150 min/week.",
   "Keep annual cardiovascular check-ups and lipid panels.",
   "Avoid smoking and limit alcohol intake.",
   "Manage stress and maintain healthy sleep habits.",

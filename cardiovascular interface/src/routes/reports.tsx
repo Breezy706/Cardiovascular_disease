@@ -71,15 +71,15 @@ function ReportsPage() {
     doc.text("Recent predictions", marginX, y);
     y += 8;
 
+    // Patient names are intentionally not included in the report.
     const columns = [
-      { label: "ID", x: marginX, w: 22 },
-      { label: "Name", x: marginX + 22, w: 42 },
-      { label: "Age/Sex", x: marginX + 66, w: 20 },
-      { label: "BP", x: marginX + 88, w: 16 },
-      { label: "Chol", x: marginX + 106, w: 18 },
-      { label: "Prob", x: marginX + 126, w: 16 },
-      { label: "Risk", x: marginX + 144, w: 20 },
-      { label: "Date", x: marginX + 166, w: 26 },
+      { label: "Patient ID", x: marginX },
+      { label: "Age/Sex", x: marginX + 32 },
+      { label: "BP", x: marginX + 58 },
+      { label: "Chol", x: marginX + 80 },
+      { label: "Prob", x: marginX + 104 },
+      { label: "Risk", x: marginX + 128 },
+      { label: "Date", x: marginX + 152 },
     ];
 
     const drawHeader = () => {
@@ -103,13 +103,12 @@ function ReportsPage() {
         drawHeader();
       }
       doc.text(p.id, columns[0].x, y);
-      doc.text(p.name.length > 22 ? `${p.name.slice(0, 20)}...` : p.name, columns[1].x, y);
-      doc.text(`${p.age}/${p.sex}`, columns[2].x, y);
-      doc.text(String(p.bp), columns[3].x, y);
-      doc.text(String(p.chol), columns[4].x, y);
-      doc.text(`${(p.probability * 100).toFixed(0)}%`, columns[5].x, y);
-      doc.text(p.risk, columns[6].x, y);
-      doc.text(p.date, columns[7].x, y);
+      doc.text(`${p.age}/${p.sex}`, columns[1].x, y);
+      doc.text(String(p.bp), columns[2].x, y);
+      doc.text(String(p.chol), columns[3].x, y);
+      doc.text(`${(p.probability * 100).toFixed(0)}%`, columns[4].x, y);
+      doc.text(p.risk, columns[5].x, y);
+      doc.text(p.date, columns[6].x, y);
       y += 6;
     });
 
